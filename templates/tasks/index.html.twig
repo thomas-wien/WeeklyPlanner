@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tasks index
+{% endblock %}
+
+{% block body %}
+	<main class="container">
+		<hgroup class="row">
+			<h2 class="col-6">weekly tasks</h1>
+			<p class="col-6 fs-5 text-end pt-1">Sort by priority:
+				<a id="sort" class="btn btn-sm btn-light">
+					<i class="bi bi-sort-up"></i>
+				</a>
+			</p>
+		</hgroup>
+
+
+		<div id="ToDo" class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+			{% for task in tasks %}
+				<div>
+					<div class="card p-3 mb-5">
+						<hgroup class="row">
+							<p class="col-4 p-2 ms-3 btn btn-info btn-sm w-25 text-white">Task</p>
+							<p class="col-8 fs-6 text-end pt-1">
+								<i class="bi bi-bookmark"></i>
+								<i class="bi bi-three-dots-vertical"></i>
+							</p>
+						</hgroup>
+
+						<img src="{{ asset("images/" ~ task.imageName) }}" class="card-img-top" alt="{{ task.shortDescription }}">
+						<div class="card-body">
+							<h5 class="card-title text-center">{{ task.taskname }}</h5>
+							<p class="card-text text-center">{{ task.details }}</p>
+							<hr>
+							<p>
+								<a class="btn btn-sm btn-light ImportanceButton">
+									<i class="bi bi-exclamation-triangle-fill"></i>
+									Priority level
+								</a>
+								<span class="btn btn-sm btn btn-${prio} priority">
+									{{ task.priority }}</span>
+							</p>
+							<p>
+								<i class="bi bi-calendar-week"></i>
+								Deadline:
+								{{ task.deadline ? task.deadline|date('Y-m-d') : '' }}</p>
+						</div>
+						<div class="card-footer text-end">
+							<a class="btn btn-sm btn-secondary" href="{{ path('app_tasks_show', {'id': task.id}) }}">show</a>
+							{% if is_granted("ROLE_ADMIN") %}
+							<a class="btn btn-sm btn-secondary" href="{{ path('app_tasks_edit', {'id': task.id}) }}">edit</a>
+							<a class="btn">
+								{{ include('tasks/_delete_form.html.twig') }}</a>
+								{% endif %}
+							<a href="#" class="btn btn-sm btn-success">
+								<i class="bi bi-check-circle"></i>
+								Done</a>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+
+		</div>
+
+	</main>
+
+
+	<a class="btn btn-sm btn-warning" href=" {{ path('app_tasks_new') }} ">Create new</a>
+{% endblock %}

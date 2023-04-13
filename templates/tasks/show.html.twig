@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tasks
+{% endblock %}
+
+{% block body %}
+	<div class="container pb-5">
+		<div class="title text-center">
+			<h1 class="my-5">Details</h1>
+		</div>
+		<div class='card'>
+			<div class='row'>
+				<div class='col-sm-5 col-md-4'>
+					<img src="{{ asset("images/" ~ task.imageName) }}" class="card-img img-fluid rounded-start p-2" alt="{{ task.shortDescription }}">
+					<div class='card-footer text-center mx-auto space-around w-100'>
+						<a class='col-4 p-2 ms-3 btn btn-secondary btn-sm w-25 text-white' href='{{ path('app_tasks_index') }}'>Home</a>
+						<a class='col-4 p-2 ms-3 btn btn-secondary btn-sm w-25 text-white' href='{{ path('app_tasks_edit', {'id': task.id}) }}'>Update</a>
+						<a class="btn p-2 w-25">
+							{{ include('tasks/_delete_form.html.twig') }}</a>
+						<div class='mb-3 pt-5 text-center'>
+							<a class="p-2 ms-3 btn btn-success btn-sm w-75 text-white" href="{{ path('app_tasks_new') }}">Create a new Task</a>
+						</div>
+					</div>
+				</div>
+				<div class='col-sm-7 col-md-8'>
+					<div class='card-body'>
+						<h5 class='card-title'>{{ task.taskname }}<h5>
+								<h5 class='card-title'>{{ task.shortDescription }}</h5>
+								<p class='card-text'>{{ task.details }}</p>
+								<p class='card-text ImportanceButton'>
+									<i class="bi bi-exclamation-triangle-fill"></i>
+									Priority level
+
+									<span class="btn btn-sm btn btn-${prio} priority">{{ task.priority }}</p>
+								</p>
+								<p class='card-text'>
+									<i class="bi bi-calendar-week"></i>
+									Deadline:
+									{{ task.deadline ? task.deadline|date('Y-m-d') : '' }}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	{% endblock %}
